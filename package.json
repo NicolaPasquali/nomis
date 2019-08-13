@@ -1,11 +1,15 @@
 {
-  "name": "game-demo",
+  "name": "nomis",
   "author": "Nicola Pasquali",
   "version": "1.0.0",
   "description": "2019 js13k entry",
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack/webpack.config.prod.js  --colors",
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js"
+  },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/NicolaPasquali/nomis"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
