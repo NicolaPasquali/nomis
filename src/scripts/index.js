@@ -6,10 +6,10 @@ const { canvas } = init();
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 const BUTTONS_CONFIGURATION = [
-	{ normalColor: '#2196f2', pressedColor: '#03a9f3', soundFrequency: 174.6 },
-	{ normalColor: '#4caf50', pressedColor: '#8bc24a', soundFrequency: 358.6 },
-	{ normalColor: '#FDD835', pressedColor: '#FFEE58', soundFrequency: 261.6 },
-	{ normalColor: '#d50000', pressedColor: '#ff1744', soundFrequency: 445.6 }
+	{ normalColor: '#fdd835', pressedColor: '#ffeb3b', soundFrequency: 175 },
+	{ normalColor: '#2196f2', pressedColor: '#03a9f3', soundFrequency: 265 },
+	{ normalColor: '#4caf50', pressedColor: '#8bc24a', soundFrequency: 355 },
+	{ normalColor: '#d50000', pressedColor: '#ff1744', soundFrequency: 445 }
 ];
 const soundPlayer = new SoundPlayer();
 let sprites = [];
@@ -25,8 +25,8 @@ for (let row = 0; row < 2; row++) {
 	for (let column = 0; column < 2; column++) {
         const currentConfiguration = BUTTONS_CONFIGURATION[+`0b${row}${column}`];
 		const button = Sprite({
-			x: 10 + (row * buttonSize + row * 10),
-			y: 10 + (column * buttonSize + column * 10),
+			x: 10 + (column * buttonSize + column * 10),
+			y: 10 + (row * buttonSize + row * 10),
 			color: currentConfiguration.normalColor,
 			width: buttonSize,
 			height: buttonSize,
