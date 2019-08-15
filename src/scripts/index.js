@@ -1,15 +1,17 @@
 /** @author Nicola Pasquali */
 import '../styles/index.scss';
 import { init, initPointer, track, Sprite, GameLoop } from 'kontra';
+import { SoundPlayer } from './SoundPlayer';
 const { canvas } = init();
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
-const COLORS = [
-	{ normal: '#2196f2', pressed: '#03a9f3' },
-	{ normal: '#4caf50', pressed: '#8bc24a' },
-	{ normal: '#fe9800', pressed: '#fec007' },
-	{ normal: '#d50000', pressed: '#ff1744' }
+const BUTTONS_CONFIGURATION = [
+	{ normalColor: '#2196f2', pressedColor: '#03a9f3', soundFrequency: 174.6 },
+	{ normalColor: '#4caf50', pressedColor: '#8bc24a', soundFrequency: 358.6 },
+	{ normalColor: '#FDD835', pressedColor: '#FFEE58', soundFrequency: 261.6 },
+	{ normalColor: '#d50000', pressedColor: '#ff1744', soundFrequency: 445.6 }
 ];
+const soundPlayer = new SoundPlayer();
 let sprites = [];
 
 initPointer();
@@ -21,19 +23,22 @@ const buttonSize = (WIDTH - 30) / 2;
 
 for (let row = 0; row < 2; row++) {
 	for (let column = 0; column < 2; column++) {
+        const currentConfiguration = BUTTONS_CONFIGURATION[+`0b${row}${column}`];
 		const button = Sprite({
 			x: 10 + (row * buttonSize + row * 10),
 			y: 10 + (column * buttonSize + column * 10),
-			color: COLORS[+`0b${row}${column}`].normal,
+			color: currentConfiguration.normalColor,
 			width: buttonSize,
 			height: buttonSize,
-			normalColor: COLORS[+`0b${row}${column}`].normal,
-			pressedColor: COLORS[+`0b${row}${column}`].pressed,
+			normalColor: currentConfiguration.normalColor,
+			pressedColor: currentConfiguration.pressedColor,
 			onDown: function() {
-				this.color = this.pressedColor;
+                this.color = this.pressedColor;
+                this.sound = soundPlayer.playSound(currentConfiguration.soundFrequency);
 			},
 			onUp: function() {
-				this.color = this.normalColor;
+                this.color = this.normalColor;
+                soundPlayer.stopSound(this.sound);
 			}
 		});
 		sprites.push(button);
