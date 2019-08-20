@@ -19,7 +19,9 @@ const buttonClickCallback = (buttonIndex) => {
             setTimeout(() => play(), 1000);
         }
         if (result === -1) {
-            alert('Game over');
+            alert('Game over. Restarting!');
+            sequenceManager.restart();
+            setTimeout(() => play(), 1000);
         }
     }
 };

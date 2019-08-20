@@ -15,6 +15,11 @@ export class SequenceManager {
         this._generateSequence();
     }
 
+    restart() {
+        this._currentSequence = [];
+        this.nextLevel();
+    }
+
     playSequence(step = 0) {
         let button = this._buttons[this._currentSequence[step]];
         this._pressButton(button);
