@@ -10,7 +10,20 @@ const HEIGHT = window.innerHeight;
 canvas.width = WIDTH;
 canvas.height = HEIGHT;
 initPointer();
-const buttons = generateButtons(WIDTH);
+let demonstration = true;
+const buttonClickCallback = (buttonIndex) => {
+    if (!demonstration) {
+        const result = sequenceManager.check(buttonIndex);
+        if (result === 0) {
+            sequenceManager.nextLevel();
+            setTimeout(() => play(), 1000);
+        }
+        if (result === -1) {
+            alert('Game over');
+        }
+    }
+};
+const buttons = generateButtons(WIDTH, buttonClickCallback);
 const sequenceManager = new SequenceManager(buttons);
 
 const gameLoop = GameLoop({
@@ -21,8 +34,10 @@ const gameLoop = GameLoop({
 });
 
 gameLoop.start();
-sequenceManager.playSequence()
-    .then(() => {
-        sequenceManager.nextLevel();
-        return sequenceManager.playSequence();
-    });
+function play() {
+    demonstration = true;
+    sequenceManager.playSequence()
+        .then(() => demonstration = false);
+}
+
+setTimeout(() => play(), 1000);

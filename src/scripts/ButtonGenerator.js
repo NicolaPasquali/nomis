@@ -10,7 +10,7 @@ const BUTTONS_CONFIGURATION = [
     { normalColor: '#d50000', pressedColor: '#ff1744', soundFrequency: 445 }
 ];
 
-export function generateButtons(screenWidth) {
+export function generateButtons(screenWidth, clickCallback) {
     let result = [];
     // The magic number is the sum of the lateral and inner spacing of the buttons
     const buttonSize = (screenWidth - 30) / 2;
@@ -34,6 +34,7 @@ export function generateButtons(screenWidth) {
                 onUp: function () {
                     this.color = this.normalColor;
                     soundPlayer.stopSound(this.sound);
+                    clickCallback(+`0b${row}${column}`);
                 }
             });
             result.push(button);
