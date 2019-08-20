@@ -44,7 +44,8 @@ export class SequenceManager {
             return -1;
         }
         if (this._temporarySequence.length === 0) {
-            return 0;
+            return 1;
         }
+        return 0;
     }
 }

@@ -11,18 +11,23 @@ canvas.width = WIDTH;
 canvas.height = HEIGHT;
 initPointer();
 let demonstration = true;
+let score = 0;
 const buttonClickCallback = (buttonIndex) => {
     if (!demonstration) {
-        const result = sequenceManager.check(buttonIndex);
-        if (result === 0) {
-            sequenceManager.nextLevel();
-            setTimeout(() => play(), 1000);
+        switch (sequenceManager.check(buttonIndex)) {
+            case -1: // Sequence failed
+                alert('Game over. Restarting!');
+                sequenceManager.restart();
+                score = 0;
+                setTimeout(() => play(), 1000);
+                break;
+            case 1: // Sequence completed
+                sequenceManager.nextLevel();
+                setTimeout(() => play(), 1000);
+            case 0: // Step completed
+                score++;
         }
-        if (result === -1) {
-            alert('Game over. Restarting!');
-            sequenceManager.restart();
-            setTimeout(() => play(), 1000);
-        }
+        document.getElementById('score').innerHTML = `Score: ${score}`;
     }
 };
 const buttons = generateButtons(WIDTH, buttonClickCallback);
