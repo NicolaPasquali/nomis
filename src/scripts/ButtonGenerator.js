@@ -1,44 +1,30 @@
 /** @author Nicola Pasquali */
-import { track, Sprite } from 'kontra';
-import { SoundPlayer } from './SoundPlayer';
 
-const soundPlayer = new SoundPlayer();
-const BUTTONS_CONFIGURATION = [
-    { normalColor: '#fdd835', pressedColor: '#ffeb3b', soundFrequency: 175 },
-    { normalColor: '#2196f2', pressedColor: '#03a9f3', soundFrequency: 265 },
-    { normalColor: '#4caf50', pressedColor: '#8bc24a', soundFrequency: 355 },
-    { normalColor: '#d50000', pressedColor: '#ff1744', soundFrequency: 445 }
-];
-
-export function generateButtons(screenWidth, clickCallback) {
+export function generateButtons(clickCallback, soundPlayer) {
     let result = [];
-    // The magic number is the sum of the lateral and inner spacing of the buttons
-    const buttonSize = (screenWidth - 30) / 2;
+    const gamePad = document.getElementById('game-pad');
 
     for (let row = 0; row < 2; row++) {
         for (let column = 0; column < 2; column++) {
-            // We're converting the two indexes into a base 2 number in order to access the configuration
-            const currentConfiguration = BUTTONS_CONFIGURATION[+`0b${row}${column}`];
-            const button = Sprite({
-                x: 10 + (column * buttonSize + column * 10),
-                y: 10 + (row * buttonSize + row * 10),
-                color: currentConfiguration.normalColor,
-                width: buttonSize,
-                height: buttonSize,
-                normalColor: currentConfiguration.normalColor,
-                pressedColor: currentConfiguration.pressedColor,
-                onDown: function () {
-                    this.color = this.pressedColor;
-                    this.sound = soundPlayer.playSound(currentConfiguration.soundFrequency);
-                },
-                onUp: function () {
-                    this.color = this.normalColor;
-                    soundPlayer.stopSound(this.sound);
-                    clickCallback(+`0b${row}${column}`);
-                }
-            });
-            result.push(button);
-            track(button);
+            const color = 90 * +`0b${row}${column}`;
+
+            const gameButton = document.createElement('div');
+            gameButton.style.backgroundColor = `hsl(${color}, 100%, 50%)`;
+            gameButton.style.height = '10rem';
+            gameButton.ontouchstart = () => {
+                gameButton.style.backgroundColor = `hsl(${color}, 100%, 75%)`;
+                soundPlayer.play(+`0b${row}${column}`);
+            };
+            gameButton.ontouchend = () => {
+                gameButton.style.backgroundColor = `hsl(${color}, 100%, 50%)`;
+                soundPlayer.stop(+`0b${row}${column}`);
+                clickCallback(+`0b${row}${column}`);
+            };
+            // TODO Check if game should use touch or click event
+            // gameButton.onmousedown = gameButton.ontouchstart;
+            // gameButton.onmouseup = gameButton.ontouchend;
+            gamePad.appendChild(gameButton);
+            result.push(gameButton);
         }
     }
     return result;

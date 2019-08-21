@@ -1,23 +1,20 @@
 /** @author Nicola Pasquali */
+
 export class SequenceManager {
     constructor(buttons) {
         this._buttons = buttons;
         this._currentSequence = [];
-        this._generateSequence();
+        this.generateSequence();
     }
 
-    _generateSequence() {
+    generateSequence() {
         this._currentSequence.push(Math.floor(Math.random() * 4));
         this._temporarySequence = [...this._currentSequence];
     }
 
-    nextLevel() {
-        this._generateSequence();
-    }
-
     restart() {
         this._currentSequence = [];
-        this.nextLevel();
+        this.generateSequence();
     }
 
     playSequence(step = 0) {
@@ -25,7 +22,7 @@ export class SequenceManager {
         this._pressButton(button);
         if (step < this._currentSequence.length - 1) {
             return new Promise((resolve) => {
-                setTimeout(() => resolve(this.playSequence(++step)), 1000);
+                setTimeout(() => resolve(this.playSequence(++step)), 800);
             });
         } else {
             return new Promise((resolve) => {
@@ -35,8 +32,8 @@ export class SequenceManager {
     }
 
     _pressButton(button) {
-        button.onDown();
-        setTimeout(() => button.onUp(), 400);
+        button.ontouchstart();
+        setTimeout(() => button.ontouchend(), 350);
     }
 
     check(buttonIndex) {

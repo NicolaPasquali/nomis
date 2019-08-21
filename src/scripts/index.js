@@ -1,17 +1,13 @@
 /** @author Nicola Pasquali */
 import '../styles/index.scss';
-import { init, initPointer, GameLoop } from 'kontra';
 import { generateButtons } from './ButtonGenerator';
 import { SequenceManager } from './SequenceManager';
-const { canvas } = init();
-const WIDTH = window.innerWidth;
-const HEIGHT = window.innerHeight;
+import { SoundPlayer } from './SoundPlayer';
 
-canvas.width = WIDTH;
-canvas.height = HEIGHT;
-initPointer();
+const soundPlayer = new SoundPlayer();
 let demonstration = true;
 let score = 0;
+
 const buttonClickCallback = (buttonIndex) => {
     if (!demonstration) {
         switch (sequenceManager.check(buttonIndex)) {
@@ -22,7 +18,7 @@ const buttonClickCallback = (buttonIndex) => {
                 setTimeout(() => play(), 1000);
                 break;
             case 1: // Sequence completed
-                sequenceManager.nextLevel();
+                sequenceManager.generateSequence();
                 setTimeout(() => play(), 1000);
             case 0: // Step completed
                 score++;
@@ -30,17 +26,9 @@ const buttonClickCallback = (buttonIndex) => {
         document.getElementById('score').innerHTML = `Score: ${score}`;
     }
 };
-const buttons = generateButtons(WIDTH, buttonClickCallback);
+const buttons = generateButtons(buttonClickCallback, soundPlayer);
 const sequenceManager = new SequenceManager(buttons);
 
-const gameLoop = GameLoop({
-    update: () => { },
-    render: () => {
-        buttons.forEach(button => button.render());
-    }
-});
-
-gameLoop.start();
 function play() {
     demonstration = true;
     sequenceManager.playSequence()
