@@ -1,14 +1,19 @@
 /** @author Nicola Pasquali */
 
 export class SequenceManager {
-    constructor(buttons) {
+    constructor(buttons, difficulty) {
         this._buttons = buttons;
+        this._difficulty = difficulty;
         this._currentSequence = [];
         this.generateSequence();
     }
 
     generateSequence() {
-        this._currentSequence.push(Math.floor(Math.random() * 4));
+        if (this._difficulty === 'easy' ) {
+            this._currentSequence.push(Math.floor(Math.random() * 4));
+        } else if (this._difficulty === 'hard') {
+            this._currentSequence = Array.from({ length: this._currentSequence.length + 1 }, () => Math.floor(Math.random() * 4));
+        }
         this._temporarySequence = [...this._currentSequence];
     }
 

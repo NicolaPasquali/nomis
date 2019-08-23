@@ -12,10 +12,11 @@ const buttonClickCallback = (buttonIndex) => {
     if (!demonstration) {
         switch (sequenceManager.check(buttonIndex)) {
             case -1: // Sequence failed
-                alert('Game over. Restarting!');
+                alert(`Game over! Score: ${score}`);
                 sequenceManager.restart();
                 score = 0;
-                setTimeout(() => play(), 1000);
+                document.getElementById('menu').style.display = 'flex';
+                document.getElementById('game-pad').style.display = 'none';
                 break;
             case 1: // Sequence completed
                 sequenceManager.generateSequence();
@@ -27,7 +28,14 @@ const buttonClickCallback = (buttonIndex) => {
     }
 };
 const buttons = generateButtons(buttonClickCallback, soundPlayer);
-const sequenceManager = new SequenceManager(buttons);
+let sequenceManager;
+
+function start(difficulty) {
+    sequenceManager = new SequenceManager(buttons, difficulty);
+    document.getElementById('menu').style.display = 'none';
+    document.getElementById('game-pad').style.display = 'grid';
+    play();
+}
 
 function play() {
     demonstration = true;
@@ -35,4 +43,5 @@ function play() {
         .then(() => demonstration = false);
 }
 
-setTimeout(() => play(), 1000);
+document.getElementById('btn-easy').onclick = () => start('easy');
+document.getElementById('btn-hard').onclick = () => start('hard');
