@@ -13,10 +13,9 @@ const buttonClickCallback = (buttonIndex) => {
         switch (sequenceManager.check(buttonIndex)) {
             case -1: // Sequence failed
                 alert(`Game over! Score: ${score}`);
-                sequenceManager.restart();
-                score = 0;
                 document.getElementById('menu').style.display = 'flex';
                 document.getElementById('game-pad').style.display = 'none';
+                score = 0;
                 break;
             case 1: // Sequence completed
                 sequenceManager.generateSequence();

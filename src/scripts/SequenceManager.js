@@ -17,11 +17,6 @@ export class SequenceManager {
         this._temporarySequence = [...this._currentSequence];
     }
 
-    restart() {
-        this._currentSequence = [];
-        this.generateSequence();
-    }
-
     playSequence(step = 0) {
         let button = this._buttons[this._currentSequence[step]];
         this._pressButton(button);
