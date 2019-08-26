@@ -15,6 +15,7 @@ const buttonClickCallback = (buttonIndex) => {
                 alert(`Game over! Score: ${score}`);
                 document.getElementById('menu').style.display = 'flex';
                 document.getElementById('game-pad').style.display = 'none';
+                document.getElementById('score').style.display = 'none';
                 score = 0;
                 break;
             case 1: // Sequence completed
@@ -33,6 +34,7 @@ function start(mode) {
     sequenceManager = new SequenceManager(buttons, mode);
     document.getElementById('menu').style.display = 'none';
     document.getElementById('game-pad').style.display = 'grid';
+    document.getElementById('score').style.display = 'block';
     play();
 }
 
