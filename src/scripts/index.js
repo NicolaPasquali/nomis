@@ -29,8 +29,8 @@ const buttonClickCallback = (buttonIndex) => {
 const buttons = generateButtons(buttonClickCallback, soundPlayer);
 let sequenceManager;
 
-function start(difficulty) {
-    sequenceManager = new SequenceManager(buttons, difficulty);
+function start(mode) {
+    sequenceManager = new SequenceManager(buttons, mode);
     document.getElementById('menu').style.display = 'none';
     document.getElementById('game-pad').style.display = 'grid';
     play();
@@ -42,5 +42,5 @@ function play() {
         .then(() => demonstration = false);
 }
 
-document.getElementById('btn-easy').onclick = () => start('easy');
-document.getElementById('btn-hard').onclick = () => start('hard');
+document.getElementById('btn-classic').onclick = () => start('classic');
+document.getElementById('btn-random').onclick = () => start('random');

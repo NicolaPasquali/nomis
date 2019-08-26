@@ -27,5 +27,5 @@ export function generateButtons(clickCallback, soundPlayer) {
             result.push(gameButton);
         }
     }
-    return result;
+    return result;  
 }

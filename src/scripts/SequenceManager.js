@@ -1,23 +1,25 @@
 /** @author Nicola Pasquali */
 
 export class SequenceManager {
-    constructor(buttons, difficulty) {
+    constructor(buttons, mode) {
         this._buttons = buttons;
-        this._difficulty = difficulty;
+        this._mode = mode;
         this._currentSequence = [];
         this.generateSequence();
     }
 
     generateSequence() {
-        if (this._difficulty === 'easy' ) {
+        if (this._mode === 'classic' ) {
             this._currentSequence.push(Math.floor(Math.random() * 4));
-        } else if (this._difficulty === 'hard') {
+        } else if (this._mode === 'random') {
             this._currentSequence = Array.from({ length: this._currentSequence.length + 1 }, () => Math.floor(Math.random() * 4));
         }
         this._temporarySequence = [...this._currentSequence];
     }
 
     playSequence(step = 0) {
+        console.log('suona \'stocazzo', this._buttons);
+        console.log('sequenza di \'stocazzo', this._currentSequence);
         let button = this._buttons[this._currentSequence[step]];
         this._pressButton(button);
         if (step < this._currentSequence.length - 1) {
