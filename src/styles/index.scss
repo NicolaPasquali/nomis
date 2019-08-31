@@ -1,3 +1,19 @@
+@font-face {
+    font-family: 'Play';
+    src: url('./play.woff2') format('woff2');
+}
+
+html {
+    font-family: 'Play';
+}
+
+#logo {
+    text-align: center;
+    padding: 2rem;
+    font-size: 6rem;
+    transform: scale(-1, 1);
+}
+
 #score {
     display: none;
     transform: scale(-1, 1);
