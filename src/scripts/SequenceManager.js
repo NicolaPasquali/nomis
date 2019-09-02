@@ -4,14 +4,15 @@ export class SequenceManager {
     constructor(buttons, mode) {
         this._buttons = buttons;
         this._mode = mode;
+        this._slow = mode % 2 === 0;
         this._currentSequence = [];
         this.generateSequence();
     }
 
     generateSequence() {
-        if (this._mode === 'classic' ) {
+        if (this._mode < 2) {
             this._currentSequence.push(Math.floor(Math.random() * 4));
-        } else if (this._mode === 'random') {
+        } else if (this._mode >= 2) {
             this._currentSequence = Array.from({ length: this._currentSequence.length + 1 }, () => Math.floor(Math.random() * 4));
         }
         this._temporarySequence = [...this._currentSequence];
@@ -22,11 +23,11 @@ export class SequenceManager {
         this._pressButton(button);
         if (step < this._currentSequence.length - 1) {
             return new Promise((resolve) => {
-                setTimeout(() => resolve(this.playSequence(++step)), 800);
+                setTimeout(() => resolve(this.playSequence(++step)), this._slow ? 800 : 400);
             });
         } else {
             return new Promise((resolve) => {
-                setTimeout(() => resolve(), 1000);
+                setTimeout(() => resolve(), this._slow ? 1000 : 600);
             });
         }
     }
