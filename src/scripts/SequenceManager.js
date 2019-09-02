@@ -23,11 +23,11 @@ export class SequenceManager {
         this._pressButton(button);
         if (step < this._currentSequence.length - 1) {
             return new Promise((resolve) => {
-                setTimeout(() => resolve(this.playSequence(++step)), this._slow ? 800 : 400);
+                setTimeout(() => resolve(this.playSequence(++step)), this._slow ? 700 : 400);
             });
         } else {
             return new Promise((resolve) => {
-                setTimeout(() => resolve(), this._slow ? 1000 : 600);
+                setTimeout(() => resolve(), this._slow ? 900 : 600);
             });
         }
     }
