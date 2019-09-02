@@ -7,6 +7,7 @@ import { SoundPlayer } from './SoundPlayer';
 const soundPlayer = new SoundPlayer();
 let demonstration = true;
 let score = 0;
+let gameMode;
 
 const buttonClickCallback = (buttonIndex) => {
     if (!demonstration) {
@@ -17,6 +18,7 @@ const buttonClickCallback = (buttonIndex) => {
                 document.getElementById('logo').style.display = 'block';
                 document.getElementById('game-pad').style.display = 'none';
                 document.getElementById('score').style.display = 'none';
+                updateHighscores(score);
                 score = 0;
                 break;
             case 1: // Sequence completed
@@ -32,6 +34,7 @@ const buttons = generateButtons(buttonClickCallback, soundPlayer);
 let sequenceManager;
 
 function start(mode) {
+    gameMode = mode;
     sequenceManager = new SequenceManager(buttons, mode);
     document.getElementById('menu').style.display = 'none';
     document.getElementById('logo').style.display = 'none';
@@ -45,6 +48,12 @@ function play() {
     sequenceManager.playSequence()
         .then(() => demonstration = false);
 }
+
+const updateHighscores = (score) => {
+    let scores = JSON.parse(localStorage.getItem(`nomis-${gameMode}`)) || [];
+    scores.push(score);
+    localStorage.setItem(`nomis-${gameMode}`, JSON.stringify(scores));
+};
 
 document.getElementById('btn-classic').onclick = () => start('classic');
 document.getElementById('btn-random').onclick = () => start('random');

@@ -18,8 +18,6 @@ export class SequenceManager {
     }
 
     playSequence(step = 0) {
-        console.log('suona \'stocazzo', this._buttons);
-        console.log('sequenza di \'stocazzo', this._currentSequence);
         let button = this._buttons[this._currentSequence[step]];
         this._pressButton(button);
         if (step < this._currentSequence.length - 1) {
